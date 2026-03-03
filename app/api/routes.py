@@ -22,3 +22,33 @@ def db_test():
             return {"database": "connected"}
     except Exception as e:
         return {"error": str(e)}
+
+from fastapi import Depends
+from sqlalchemy.orm import Session
+from app.db.database import get_db
+from app.services.property_service import create_property, get_all_properties
+
+
+from app.schemas.property import PropertyCreate, PropertyResponse
+"""
+@router.post("/properties")
+def add_property(title: str, location: str, price: float, rent: float, db: Session = Depends(get_db)):
+    return create_property(db, title, location, price, rent)
+
+@router.get("/properties")
+def list_properties(db: Session = Depends(get_db)):
+    return get_all_properties(db)        
+"""
+@router.post("/properties", response_model=PropertyResponse)
+def add_property(property: PropertyCreate, db: Session = Depends(get_db)):
+    return create_property(
+        db,
+        title=property.title,
+        location=property.location,
+        price=property.price,
+        rent=property.rent
+    )
+
+@router.get("/properties", response_model=list[PropertyResponse])
+def list_properties(db: Session = Depends(get_db)):
+    return get_all_properties(db)
