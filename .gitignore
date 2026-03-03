@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.env
+venv/
+.env.*
+.playwright/
+node_modules/
+*.log
+.DS_Store
+.idea/
+.vscode/
+
+real_estate_venv/
+
